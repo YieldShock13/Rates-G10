@@ -152,7 +152,8 @@ with st.expander("Underlying data availability"):
 
 with st.expander("Methodology"):
     st.markdown("""
-- Data source: RBond historical API.
+- Market data: RBond.
+- Analytics and calculations: author.
 - Series: spot overnight ZARONIA plus RBond ZARGB1, ZARGB5 and ZARGB10 constant-maturity South African government bond yields.
 - The 1Y/5Y/10Y versus ZARONIA measures subtract the current spot overnight ZARONIA rate; they are not maturity-matched SAGB-versus-OIS spreads.
 - All spreads are expressed in basis points.
