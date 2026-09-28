@@ -8,7 +8,7 @@ import statsmodels.api as sm
 
 st.set_page_config(page_title="SA Rates RV Monitor", page_icon="📈", layout="wide")
 st.title("South African Rates Relative Value Monitor")
-st.caption("ZARONIA and constant-maturity South African government bond relative-value analytics.")
+st.caption("Spot ZARONIA and constant-maturity South African government bond relative-value analytics.")
 
 @st.cache_data(ttl=3600)
 def load_rates():
@@ -26,9 +26,9 @@ def load_rates():
 
 def build_spreads(rates):
     s=pd.DataFrame(index=rates.index)
-    s["1Y - ZARONIA"]=(rates["ZARGB1"]-rates["ZARONIA"])*100
-    s["5Y - ZARONIA"]=(rates["ZARGB5"]-rates["ZARONIA"])*100
-    s["10Y - ZARONIA"]=(rates["ZARGB10"]-rates["ZARONIA"])*100
+    s["1Y - Spot ZARONIA"]=(rates["ZARGB1"]-rates["ZARONIA"])*100
+    s["5Y - Spot ZARONIA"]=(rates["ZARGB5"]-rates["ZARONIA"])*100
+    s["10Y - Spot ZARONIA"]=(rates["ZARGB10"]-rates["ZARONIA"])*100
     s["5Y - 1Y"]=(rates["ZARGB5"]-rates["ZARGB1"])*100
     s["10Y - 1Y"]=(rates["ZARGB10"]-rates["ZARGB1"])*100
     s["10Y - 5Y"]=(rates["ZARGB10"]-rates["ZARGB5"])*100
@@ -102,7 +102,7 @@ latest_source_date=rates.apply(lambda x:x.dropna().index.max()).max()
 st.caption(f"Latest underlying market observation: {latest_source_date:%d %B %Y}")
 
 st.subheader("Current Spreads")
-top=["1Y - ZARONIA","5Y - ZARONIA","10Y - ZARONIA"]
+top=["1Y - Spot ZARONIA","5Y - Spot ZARONIA","10Y - Spot ZARONIA"]
 bot=["5Y - 1Y","10Y - 1Y","10Y - 5Y"]
 for names in [top,bot]:
     cols=st.columns(3)
@@ -153,7 +153,8 @@ with st.expander("Underlying data availability"):
 with st.expander("Methodology"):
     st.markdown("""
 - Data source: RBond historical API.
-- Series: ZARONIA plus RBond ZARGB1, ZARGB5 and ZARGB10 constant-maturity South African government bond yields.
+- Series: spot overnight ZARONIA plus RBond ZARGB1, ZARGB5 and ZARGB10 constant-maturity South African government bond yields.
+- The 1Y/5Y/10Y versus ZARONIA measures subtract the current spot overnight ZARONIA rate; they are not maturity-matched SAGB-versus-OIS spreads.
 - All spreads are expressed in basis points.
 - 252D Z-score uses the trailing 252 available observations, with a 60-observation minimum.
 - Historical percentile is calculated over the full available sample from 25 September 2023.
