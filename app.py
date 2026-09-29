@@ -54,7 +54,7 @@ def rolling_ar1_phi(series, window=WINDOW, min_obs=MIN_OBS):
 try:
     rates=load_rates()
 except Exception as e:
-    st.error("Unable to retrieve RBond market data.")
+    st.error("Unable to retrieve market data.")
     st.exception(e)
     st.stop()
 
@@ -152,9 +152,8 @@ with st.expander("Underlying data availability"):
 
 with st.expander("Methodology"):
     st.markdown("""
-- Market data: RBond.
 - Analytics and calculations: author.
-- Series: spot overnight ZARONIA plus RBond ZARGB1, ZARGB5 and ZARGB10 constant-maturity South African government bond yields.
+- Series: spot overnight ZARONIA plus 1Y, 5Y and 10Y constant-maturity South African government bond yields.
 - The 1Y/5Y/10Y versus ZARONIA measures subtract the current spot overnight ZARONIA rate; they are not maturity-matched SAGB-versus-OIS spreads.
 - All spreads are expressed in basis points.
 - 252D Z-score uses the trailing 252 available observations, with a 60-observation minimum.
